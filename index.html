@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KAREN MOTORS | Autos y Servicios</title>
+  <meta name="description" content="Plantilla tipo concesionario: héroe con carrusel, catálogo, servicios, financiamiento y contacto. 100% estática y gratuita." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1020; --surface:#0f1733; --muted:#9fb1d1; --text:#e8ecf4; --line:#213058;
+      --brand:#00d1ff; --brand-2:#2df598; --accent:#6aa7ff; --danger:#ef4444; --warn:#f59e0b;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#0a0f1e;color:var(--text)}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .wrapper{max-width:1200px;margin-inline:auto;padding:20px}
+
+    /* Header */
+    .topbar{background:#060a14;color:#a7b6d6;font-size:13px}
+    .topbar .bar{display:flex;gap:18px;align-items:center;justify-content:flex-end}
+    header{position:sticky;top:0;z-index:30;background:rgba(10,15,30,.8);backdrop-filter:blur(8px);border-bottom:1px solid #152046}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 20px}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.3px}
+    .logo img{width:40px;height:40px;border-radius:10px}
+    .menu{display:flex;gap:22px;align-items:center}
+    .menu a{opacity:.92;font-weight:600}
+    .menu .btn{padding:9px 14px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#041028;font-weight:800}
+    .burger{display:none;border:1px solid #26335f;border-radius:10px;padding:8px}
+    @media (max-width:900px){.menu{display:none}.burger{display:block}}
+
+    /* Mobile menu */
+    .drawer{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none}
+    .drawer.open{display:block}
+    .sheet{position:absolute;right:0;top:0;bottom:0;width:min(84vw,360px);background:#0c132b;border-left:1px solid #1f2a52;padding:18px;display:grid;gap:12px}
+
+    /* Hero carousel */
+    .hero{position:relative}
+    .slides{height:64vh;min-height:420px;max-height:760px;position:relative;overflow:hidden;border-radius:18px;border:1px solid var(--line)}
+    .slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .9s ease}
+    .slide.active{opacity:1}
+    .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,10,20,.45),rgba(7,10,20,.75))}
+    .hero-content{position:absolute;bottom:24px;left:24px;right:24px;display:grid;gap:8px}
+    .kicker{display:inline-flex;gap:8px;align-items:center;background:rgba(255,255,255,.1);backdrop-filter:blur(4px);padding:6px 10px;border-radius:999px;border:1px solid #2a3a66;width:max-content}
+    .hero h1{font-size:clamp(26px,4vw,52px);margin:6px 0;font-weight:800;line-height:1.05}
+    .hero p{max-width:760px;color:#c4d1ef}
+    .cta{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap}
+    .btn{display:inline-block;padding:12px 16px;border-radius:12px;font-weight:700;border:1px solid #273660}
+    .btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#061022;border:none}
+    .btn.ghost{background:transparent;color:#cfe0ff}
+
+    /* Brands row */
+    .brands{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;align-items:center}
+    .brands .card{background:#0f1733;border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;justify-content:center;opacity:.9}
+    @media (max-width:900px){.brands{grid-template-columns:repeat(3,1fr)}}
+
+    /* Featured models */
+    h2{font-size:clamp(22px,3vw,34px);margin:26px 4px 14px}
+    .grid{display:grid;gap:16px}
+    .cols-3{grid-template-columns:repeat(3,1fr)}
+    @media (max-width:900px){.cols-3{grid-template-columns:1fr}}
+    .card{background:#0f1733;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .card .body{padding:14px}
+    .meta{display:flex;gap:10px;color:#a9b8d8;font-size:14px}
+    .price{font-weight:800;font-size:20px;color:var(--brand-2)}
+
+    /* Services & Finance */
+    .services{grid-template-columns:2fr 1fr}
+    @media (max-width:900px){.services{grid-template-columns:1fr}}
+    .service{display:flex;gap:14px;align-items:flex-start}
+
+    /* Testimonials */
+    .testi{display:grid;gap:16px;grid-template-columns:repeat(3,1fr)}
+    @media (max-width:900px){.testi{grid-template-columns:1fr}}
+    .quote{background:#0f1733;border:1px solid var(--line);border-radius:16px;padding:16px}
+    .quote .name{margin-top:10px;color:#cfe0ff}
+
+    /* Footer */
+    footer{margin-top:30px;border-top:1px solid var(--line);background:#0b1229}
+    .foot{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:18px}
+    .foot h4{margin:10px 0}
+    .foot a{color:#a8b7d8;font-size:14px}
+    @media (max-width:900px){.foot{grid-template-columns:1fr 1fr}}
+
+    /* Floating WhatsApp */
+    .wa{position:fixed;right:18px;bottom:18px;background:#25D366;color:white;padding:12px 14px;border-radius:999px;font-weight:800;box-shadow:0 10px 20px rgba(0,0,0,.35);z-index:50}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="wrapper bar">
+      <span>📍 Av. Principal 123, Santo Domingo</span>
+      <span>☎️ (809) 404-7501</span>
+      <span>🕒 Lun–Sáb 9:00–05:00</span>
+    </div>
+  </div>
+  <header>
+    <div class="nav wrapper">
+      <a class="logo" href="#">
+  <img src="LOGOK2.png" alt="Karen Motors">
+  <span>KAREN MOTORS</span>
+</a>
+
+      <nav class="menu">
+        <a href="#modelos">Modelos</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#financiamiento">Financiamiento</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#contacto" class="btn">Contacto</a>
+        <a href="#cotizar" class="btn primary">Cotiza ahora</a>
+      </nav>
+      <button class="burger" aria-label="Abrir menú" onclick="openDrawer()">☰</button>
+    </div>
+    <div class="drawer" id="drawer" onclick="closeDrawer(event)">
+      <div class="sheet">
+        <a href="#modelos" onclick="closeDrawer()">Modelos</a>
+        <a href="#servicios" onclick="closeDrawer()">Servicios</a>
+        <a href="#financiamiento" onclick="closeDrawer()">Financiamiento</a>
+        <a href="#nosotros" onclick="closeDrawer()">Nosotros</a>
+        <a href="#contacto" class="btn" onclick="closeDrawer()">Contacto</a>
+        <a href="#cotizar" class="btn primary" onclick="closeDrawer()">Cotiza ahora</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrapper">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="slides" id="slides">
+        <div class="slide active" style="background-image:url('car1.jpg');"></div>
+         <div class="slide" style="background-image:url('Car2.jpg');"></div>
+
+        <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=1600');"></div>
+        <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=1600');"></div>
+        <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=1600');"></div>
+        <div class="overlay"></div>
+        <div class="hero-content">
+          <span class="kicker">🚗 Estrena hoy • Entrega inmediata</span>
+          <h1>Encuentra tu <span style="color:var(--brand)">próximo vehículo</span> con nosotros</h1>
+          <p>Amplio inventario de SUVs, sedanes y pick-ups. Planes de financiamiento, servicio y repuestos oficiales.</p>
+          <div class="cta">
+            <a href="#modelos" class="btn primary">Ver modelos</a>
+            <a href="#financiamiento" class="btn ghost">Calcula tu cuota</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BRANDS -->
+    <section style="margin-top:20px">
+      <div class="brands">
+        <div class="card"><img src="https://dummyimage.com/140x40/243251/ffffff&text=Marca+1" alt="Marca 1"></div>
+        <div class="card"><img src="https://dummyimage.com/140x40/243251/ffffff&text=Marca+2" alt="Marca 2"></div>
+        <div class="card"><img src="https://dummyimage.com/140x40/243251/ffffff&text=Marca+3" alt="Marca 3"></div>
+        <div class="card"><img src="https://dummyimage.com/140x40/243251/ffffff&text=Marca+4" alt="Marca 4"></div>
+        <div class="card"><img src="https://dummyimage.com/140x40/243251/ffffff&text=Marca+5" alt="Marca 5"></div>
+        <div class="card"><img src="https://dummyimage.com/140x40/243251/ffffff&text=Marca+6" alt="Marca 6"></div>
+      </div>
+    </section>
+
+    <!-- FEATURED MODELS -->
+    <section id="modelos">
+      <h2>Modelos destacados</h2>
+      <div class="grid cols-3">
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?q=80&w=1200" alt="Modelo 1">
+          <div class="body">
+            <h3>SUV Alpha 2.0 Turbo</h3>
+            <div class="meta"><span>2025</span>•<span>Automática</span>•<span>Gasolina</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+              <span class="price">US$ 49,990</span>
+              <a href="#cotizar" class="btn">Cotizar</a>
+            </div>
+          </div>
+        </article>
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200" alt="Modelo 2">
+          <div class="body">
+            <h3>Sedan Luxe 1.6</h3>
+            <div class="meta"><span>2025</span>•<span>Manual</span>•<span>Gasolina</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+              <span class="price">US$ 22,490</span>
+              <a href="#cotizar" class="btn">Cotizar</a>
+            </div>
+          </div>
+        </article>
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?q=80&w=1200" alt="Modelo 3">
+          <div class="body">
+            <h3>Pick-up Terra 4x4</h3>
+            <div class="meta"><span>2025</span>•<span>Automática</span>•<span>Diésel</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+              <span class="price">US$ 36,990</span>
+              <a href="#cotizar" class="btn">Cotizar</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SERVICES + FINANCE -->
+    <section id="servicios" class="grid services" style="margin-top:16px">
+      <div class="card" style="padding:16px">
+        <h2>Servicios</h2>
+        <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px">
+          <div class="service">
+            <div>🛠️</div>
+            <div>
+              <h3>Taller autorizado</h3>
+              <p class="muted">Mantenimiento preventivo, correctivo y garantías oficiales.</p>
+            </div>
+          </div>
+          <div class="service">
+            <div>🧩</div>
+            <div>
+              <h3>Repuestos originales</h3>
+              <p class="muted">Disponibilidad inmediata y pedidos especiales.</p>
+            </div>
+          </div>
+          <div class="service">
+            <div>📦</div>
+            <div>
+              <h3>Accesorios</h3>
+              <p class="muted">Personaliza tu vehículo con accesorios de fábrica.</p>
+            </div>
+          </div>
+          <div class="service">
+            <div>🛡️</div>
+            <div>
+              <h3>Seguros</h3>
+              <p class="muted">Asesoría y emisión de pólizas al instante.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside id="financiamiento" class="card" style="padding:16px;display:grid;gap:10px;align-content:start">
+        <h2>Financia tu auto</h2>
+        <p>Cuotas flexibles desde <strong>US$299/mes</strong>. Pre-aprobación en 24h.</p>
+        <form onsubmit="event.preventDefault();alert('¡Gracias! Te contactaremos.');">
+          <input required placeholder="Nombre" style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:#0c132b;color:var(--text)">
+          <input type="tel" required placeholder="Teléfono" style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:#0c132b;color:var(--text)">
+          <input type="email" required placeholder="Email" style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:#0c132b;color:var(--text)">
+          <button class="btn primary" type="submit">Solicitar cálculo</button>
+        </form>
+        <small class="muted">Al enviar aceptas el tratamiento de tus datos.</small>
+      </aside>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section style="margin-top:10px">
+      <h2>Lo que dicen nuestros clientes</h2>
+      <div class="testi">
+        <div class="quote">“Atención excelente y entrega rápida.”<div class="name">— Laura M.</div></div>
+        <div class="quote">“El financiamiento fue claro y sin sorpresas.”<div class="name">— José R.</div></div>
+        <div class="quote">“Servicio postventa impecable. Recomendados.”<div class="name">— Camila D.</div></div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto" style="margin-top:20px" class="grid" >
+      <div class="card" style="padding:16px">
+        <h2>Contáctanos</h2>
+        <form action="mailto:ventas@tuconcesionario.com" method="post" enctype="text/plain" style="display:grid;gap:10px">
+          <input name="nombre" placeholder="Tu nombre" required style="padding:12px;border-radius:12px;border:1px solid var(--line);background:#0c132b;color:var(--text)">
+          <input name="email" type="email" placeholder="Tu email" required style="padding:12px;border-radius:12px;border:1px solid var(--line);background:#0c132b;color:var(--text)">
+          <textarea name="mensaje" placeholder="¿Qué estás buscando?" required style="min-height:120px;padding:12px;border-radius:12px;border:1px solid var(--line);background:#0c132b;color:var(--text)"></textarea>
+          <button class="btn primary" type="submit">Enviar</button>
+        </form>
+      </div>
+      <div class="card" style="padding:16px">
+        <h2>Ubicación</h2>
+        <iframe style="width:100%;aspect-ratio:16/9;border:0;border-radius:12px" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48363.211!2d-69.946!3d18.486!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ea5594c3f6e0a57%3A0x9c4b1c6!2sSanto%20Domingo!5e0!3m2!1ses!2sdo!4v0000000000" loading="lazy" allowfullscreen></iframe>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrapper foot">
+      <div>
+        <h4>Tu Concesionario</h4>
+        <p class="muted">Venta de vehículos nuevos y usados, servicios y repuestos oficiales.</p>
+      </div>
+      <div>
+        <h4>Modelos</h4>
+        <a href="#">SUV</a><br>
+        <a href="#">Sedanes</a><br>
+        <a href="#">Pick-ups</a><br>
+        <a href="#">Usados</a>
+      </div>
+      <div>
+        <h4>Servicios</h4>
+        <a href="#">Taller</a><br>
+        <a href="#">Repuestos</a><br>
+        <a href="#">Seguros</a>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <a href="tel:+18494047501">(849) 404-7501</a><br>
+        <a href="karen.valdez@karenmotors.com">karen.valdez@karenmotors.com</a>
+      </div>
+    </div>
+    <div class="wrapper" style="display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;color:#9fb1d1">
+      <small>© <span id="year"></span> karenmotors • Todos los derechos reservados</small>
+      <small>Hecho con ❤ y HTML estático</small>
+    </div>
+  </footer>
+
+  <a class="wa" href="https://wa.me/18494047501" target="_blank" rel="noopener">WhatsApp</a>
+
+  <script>
+    // Año dinámico
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Drawer móvil
+    function openDrawer(){document.getElementById('drawer').classList.add('open')}
+    function closeDrawer(e){if(!e || e.target.id==='drawer'){document.getElementById('drawer').classList.remove('open')}}
+
+    // Carrusel básico (auto-rotación)
+    const slides = Array.from(document.querySelectorAll('.slide'))
+    let i = 0
+    setInterval(()=>{
+      slides[i].classList.remove('active')
+      i = (i+1)%slides.length
+      slides[i].classList.add('active')
+    }, 2000) // cada 5s
+  </script>
+</body>
+</html>
